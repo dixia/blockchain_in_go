@@ -1,4 +1,4 @@
-package HanCoin
+package DCoin
 
 type Blockchain struct {
   Blocks []*Block
