@@ -1,12 +1,13 @@
 package DCoin
 
 import (
-  "bytes"
+	"bytes"
 	"crypto/sha256"
-  "fmt"
-  "math"
-  "math/big"
+	"fmt"
+	"math"
+	"math/big"
 )
+
 type ProofOfWork struct {
 	block  *Block
 	target *big.Int
@@ -16,10 +17,11 @@ var (
 	maxNonce = math.MaxInt64
 )
 
-const targetBits = 24
+const targetBits = 8
 
 func NewProofOfWork(b *Block) *ProofOfWork {
 	target := big.NewInt(1)
+	//this will shift the bit from the left to right for targetBits
 	target.Lsh(target, uint(256-targetBits))
 
 	pow := &ProofOfWork{b, target}
@@ -55,15 +57,20 @@ func (pow *ProofOfWork) Run() (int, []byte) {
 		fmt.Printf("\r%x", hash)
 		hashInt.SetBytes(hash[:])
 
+		//make sure hashint is < target
+		//so hashint is >= target in the beginning
+		//because the hash will be larger
+		// because the hash has no zero in the beginning
+
 		if hashInt.Cmp(pow.target) == -1 {
 			break
 		} else {
 			nonce++
 		}
-  }
-  fmt.Print("\n\n")
+	}
+	fmt.Print("\n\n")
 
-  return nonce, hash[:]
+	return nonce, hash[:]
 }
 
 func (pow *ProofOfWork) Validate() bool {

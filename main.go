@@ -9,8 +9,8 @@ import (
 func main() {
 	bc := DCoin.NewBlockchain()
   
-	bc.AddBlock("Send 1 BTC to Alice")
-	bc.AddBlock("Send 2 more BTC to Alice")
+	bc.AddBlock("Send 1 Dcoin to Alice")
+	bc.AddBlock("Send 2 Dcoin to Bob")
 
 	for _, block := range bc.Blocks {
 		fmt.Printf("Prev. hash: %x\n", block.PrevBlockHash)
